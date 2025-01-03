@@ -5,7 +5,9 @@
     "dev": "npm run dev -w app",
     "build": "npm run build -w app",
     "start": "npm run start -w app",
-    "deploy": "npm run deploy -w infra"
+    "deploy": "npm run deploy -w infra",
+    "destroy": "npm run destroy -w infra",
+    "diff": "npm run diff -w infra"
   },
   "workspaces": [
     "app",
