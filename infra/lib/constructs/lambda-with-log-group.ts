@@ -1,13 +1,13 @@
 import { Construct } from "constructs";
 import {
-  DockerImageFunction,
-  DockerImageFunctionProps,
-} from "aws-cdk-lib/aws-lambda";
+  NodejsFunction,
+  NodejsFunctionProps,
+} from "aws-cdk-lib/aws-lambda-nodejs";
 import { LogGroupProps, RetentionDays } from "aws-cdk-lib/aws-logs";
 import { LogGroup } from "aws-cdk-lib/aws-logs";
 import { RemovalPolicy } from "aws-cdk-lib";
 
-interface DockerImageLambdaWithLogGroupProps extends DockerImageFunctionProps {
+interface LambdaWithLogGroupProps extends NodejsFunctionProps {
   logGroupProps?: Omit<LogGroupProps, "logGroupName">;
 }
 
@@ -17,15 +17,11 @@ const logGroupDefaultProps: Pick<LogGroupProps, "retention" | "removalPolicy"> =
     removalPolicy: RemovalPolicy.DESTROY,
   };
 
-export class DockerImageLambdaWithLogGroup extends DockerImageFunction {
-  constructor(
-    scope: Construct,
-    id: string,
-    props: DockerImageLambdaWithLogGroupProps
-  ) {
-    const { logGroupProps, ...dockerImageFunctionProps } = props;
+export class LambdaWithLogGroup extends NodejsFunction {
+  constructor(scope: Construct, id: string, props: LambdaWithLogGroupProps) {
+    const { logGroupProps, ...nodejsFunctionProps } = props;
 
-    super(scope, id, dockerImageFunctionProps);
+    super(scope, id, nodejsFunctionProps);
 
     new LogGroup(this, "LogGroup", {
       logGroupName: `/aws/lambda/${this.functionName}`,
